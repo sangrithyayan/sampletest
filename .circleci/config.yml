@@ -10,3 +10,7 @@ jobs:
       - run:
           name: run test
           command : python -m pytest
+workflows: 
+  test-deploy:
+    jobs:
+      - build_and_test
