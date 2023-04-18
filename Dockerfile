@@ -4,11 +4,11 @@ RUN mkdir /app
 
 WORKDIR /app
 
-COPY requirement.txt requirement.txt
+COPY requirements.txt requirements.txt
 
-RUN pip install -r requirment.txt
+RUN pip install -r requirements.txt
 
-COPY ..
+COPY . .
 
 LABEL maintainer="premchand sivakumar" \ version="1.0"
 
