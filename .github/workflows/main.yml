@@ -1,0 +1,21 @@
+name: python application
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: build & push image
+      run: |
+        echo "${{ secrets.DOCKERPW }}" | docker login -u "sangrithyayan" --password-stdin
+        docker image build. -t sangrithyayan/sampletest:v1
+        docker push sangrithyayan/sampletest:v1
+  
