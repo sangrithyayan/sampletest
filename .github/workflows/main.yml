@@ -11,11 +11,9 @@ jobs:
     name: Build image
     runs-on: ubuntu-latest
 
-    environment:
-    name: dev env
+    environment: dev env
   
     steps:
-    
     - name: check out code
       uses: actions/checkout@v1
     
