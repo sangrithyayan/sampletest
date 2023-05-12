@@ -71,16 +71,19 @@ jobs:
     
     - name: get docker image
       id: image
-      run: docker load -i warmup_images
-
-
-    - name: running test
-      env:
-        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
-        ECR_REPOSITORY: kl-reply-tracker
-        IMAGE_TAG: latest
+      run: >-
+        echo "::set-output name=loaded_image::$(
+          docker load -i warmup_images
+        )"
+    
+    - name: Removing the string
+      env: 
+        OUTPUT_IMAGE: ${{ steps.image.outputs.loaded_image }} 
+      run: |
+        OUTPUT_IMAGE=${{ env.OUTPUT_IMAGE }} | cut -c 13-
         
-      run: docker run -i --entrypoint npm $ECR_REGISTRY/$ECR_REPOSITORY:$IMAGE_TAG run test
+    - name: Testing through docker
+      run: docker run -i ${OUTPUT_IMAGE} run test
     
     - uses: geekyeggo/delete-artifact@v2
       with:
