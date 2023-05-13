@@ -81,9 +81,17 @@ jobs:
         OUTPUT_IMAGE: ${{ steps.image.outputs.loaded_image }} 
       run: |
         OUTPUT_IMAGE=${{ env.OUTPUT_IMAGE }} | cut -c 13-
+    
+    - name: replaceing the output string
+      env: 
+        OUTPUT_IMAGE: ${{ steps.image.outputs.loaded_image }} 
+      run: |
+        OUTPUT_IMAGE=${{ env.OUTPUT_IMAGE }}
+        OUTPUT_IMAGE=${OUTPUT_IMAGE | cut -c 13- "}
+        echo OUTPUT_IMAGE=${OUTPUT_IMAGE} >> $GITHUB_ENV
         
     - name: Testing through docker
-      run: docker run -i ${OUTPUT_IMAGE} run test
+      run: docker run -i ${( env.OUTPUT_IMAGE }} run test
     
     - uses: geekyeggo/delete-artifact@v2
       with:
